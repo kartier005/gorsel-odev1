@@ -1,0 +1,386 @@
+:root {
+    --bg-primary: #0c0c1d;
+    --bg-secondary: #13132b;
+    --bg-card: #1a1a3e;
+    --bg-card-hover: #222255;
+    --bg-input: #1e1e42;
+    --bg-topbar: #0e0e22;
+
+    --text-primary: #e8e8f5;
+    --text-secondary: #9999bb;
+    --text-muted: #666688;
+
+    --word-color: #2B579A;
+    --excel-color: #217346;
+    --ppt-color: #D24726;
+
+    --accent: #7c5cfc;
+    --accent-light: #9b7eff;
+    --accent-gradient: linear-gradient(135deg, #7c5cfc 0%, #c054ff 50%, #ff6b9d 100%);
+    --accent-glow: 0 0 24px rgba(124, 92, 252, 0.35);
+
+    --success: #22c55e;
+    --danger: #ef4444;
+
+    --border: rgba(255, 255, 255, 0.06);
+    --border-accent: rgba(124, 92, 252, 0.3);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 40px rgba(124, 92, 252, 0.12);
+
+    --transition: 0.25s ease;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; overflow: hidden; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* ============ HEADER ============ */
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-topbar);
+}
+
+.header-left { display: flex; align-items: center; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { font-size: 1.8rem; }
+.logo h1 {
+    font-size: 1.4rem; font-weight: 800;
+    background: var(--accent-gradient);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.header-tag {
+    font-size: 0.7rem; font-weight: 600; color: var(--accent);
+    background: rgba(124,92,252,0.1); padding: 4px 10px; border-radius: 6px;
+}
+.header-btn {
+    padding: 8px 16px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    color: var(--text-secondary); border-radius: var(--radius-sm); font-family: inherit;
+    font-size: 0.8rem; cursor: pointer; transition: all var(--transition);
+}
+.header-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+
+/* ============ DASHBOARD ============ */
+.app { height: 100vh; overflow-y: auto; }
+
+.dashboard {
+    max-width: 1100px; margin: 0 auto; padding: 40px 32px;
+}
+
+.section { margin-bottom: 48px; }
+.section-title {
+    font-size: 1.1rem; font-weight: 700; margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+.section-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;
+}
+.btn-refresh {
+    background: none; border: none; font-size: 1.2rem; cursor: pointer;
+    transition: transform 0.3s; padding: 4px;
+}
+.btn-refresh:hover { transform: rotate(180deg); }
+
+/* Doc Cards */
+.doc-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.doc-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 32px 24px; text-align: center; cursor: pointer;
+    transition: all var(--transition); position: relative; overflow: hidden;
+    font-family: inherit; color: var(--text-primary);
+}
+.doc-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.doc-card.word::before { background: var(--word-color); }
+.doc-card.excel::before { background: var(--excel-color); }
+.doc-card.powerpoint::before { background: var(--ppt-color); }
+
+.doc-card:hover {
+    transform: translateY(-4px); border-color: var(--border-accent);
+    box-shadow: var(--shadow-glow);
+}
+.doc-card-icon { margin-bottom: 16px; }
+.doc-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 6px; }
+.doc-card p { font-size: 0.78rem; color: var(--text-muted); }
+
+/* Saved List */
+.saved-list { display: flex; flex-direction: column; gap: 10px; }
+.saved-item {
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-md);
+    padding: 14px 20px; transition: all var(--transition); cursor: pointer;
+    animation: fadeIn 0.3s ease;
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.saved-item:hover { border-color: var(--border-accent); background: var(--bg-card-hover); }
+.saved-item-left { display: flex; align-items: center; gap: 14px; }
+.saved-item-icon {
+    width: 40px; height: 40px; border-radius: 10px; display: flex;
+    align-items: center; justify-content: center; font-weight: 800; font-size: 1rem;
+}
+.saved-item-icon.word { background: rgba(43,87,154,0.15); color: var(--word-color); }
+.saved-item-icon.excel { background: rgba(33,115,70,0.15); color: var(--excel-color); }
+.saved-item-icon.powerpoint { background: rgba(210,71,38,0.15); color: var(--ppt-color); }
+
+.saved-item-info h4 { font-size: 0.9rem; font-weight: 600; }
+.saved-item-info p { font-size: 0.72rem; color: var(--text-muted); }
+
+.saved-item-actions { display: flex; gap: 6px; }
+.saved-item-actions button {
+    width: 32px; height: 32px; border: none; border-radius: 6px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 0.85rem;
+    background: rgba(255,255,255,0.05); color: var(--text-secondary); transition: all 0.15s;
+}
+.saved-item-actions button:hover { background: rgba(124,92,252,0.2); color: var(--text-primary); }
+.saved-item-actions button.delete:hover { background: rgba(239,68,68,0.2); color: var(--danger); }
+
+.empty-state {
+    text-align: center; padding: 48px 20px; color: var(--text-muted);
+}
+.empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; opacity: 0.4; }
+
+/* ============ EDITOR VIEW ============ */
+.editor-view { display: flex; flex-direction: column; height: 100vh; }
+
+.editor-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px; padding: 0 16px; background: var(--bg-topbar);
+    border-bottom: 1px solid var(--border); flex-shrink: 0; z-index: 10;
+}
+.topbar-left, .topbar-right { display: flex; align-items: center; gap: 10px; }
+.topbar-btn {
+    padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+    color: var(--text-secondary); border-radius: var(--radius-sm); font-family: inherit;
+    font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all var(--transition);
+}
+.topbar-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
+.topbar-btn.save-btn {
+    background: var(--accent); border-color: var(--accent); color: white; font-weight: 600;
+}
+.topbar-btn.save-btn:hover { background: var(--accent-light); box-shadow: var(--accent-glow); }
+.topbar-divider { width: 1px; height: 24px; background: var(--border); }
+.topbar-title { font-size: 0.85rem; font-weight: 600; }
+
+/* ============ WORD EDITOR ============ */
+.editor-container { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+.word-toolbar {
+    display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+    background: var(--bg-secondary); border-bottom: 1px solid var(--border);
+    flex-wrap: wrap; flex-shrink: 0;
+}
+.toolbar-group {
+    display: flex; align-items: center; gap: 4px;
+    padding-right: 8px; border-right: 1px solid var(--border);
+}
+.toolbar-group:last-child { border-right: none; }
+
+.tb-btn {
+    padding: 6px 10px; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    color: var(--text-secondary); border-radius: 6px; cursor: pointer; font-family: inherit;
+    font-size: 0.78rem; transition: all 0.15s; min-width: 32px; text-align: center;
+}
+.tb-btn:hover { background: rgba(124,92,252,0.15); color: var(--text-primary); border-color: var(--border-accent); }
+
+.tb-select {
+    padding: 5px 8px; background: var(--bg-input); border: 1px solid var(--border);
+    color: var(--text-primary); border-radius: 6px; font-family: inherit; font-size: 0.75rem;
+    cursor: pointer; outline: none;
+}
+.tb-select option { background: var(--bg-secondary); }
+
+.tb-color {
+    width: 28px; height: 28px; border: 1px solid var(--border); border-radius: 6px;
+    cursor: pointer; background: none; padding: 2px;
+}
+
+.word-page-wrapper {
+    flex: 1; overflow-y: auto; display: flex; justify-content: center;
+    padding: 32px; background: #1a1a30;
+}
+.word-page {
+    width: 816px; min-height: 1056px; background: white; color: #333;
+    padding: 72px 72px; font-size: 14px; line-height: 1.8;
+    box-shadow: var(--shadow-lg); border-radius: 4px; outline: none;
+    font-family: 'Times New Roman', Georgia, serif;
+}
+.word-page h1 { font-size: 24px; margin-bottom: 12px; color: #111; }
+.word-page h2 { font-size: 20px; margin-bottom: 10px; color: #222; }
+.word-page p { margin-bottom: 8px; }
+
+/* ============ EXCEL EDITOR ============ */
+.excel-toolbar {
+    display: flex; align-items: center; gap: 8px; padding: 6px 16px;
+    background: var(--bg-secondary); border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.cell-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
+.cell-ref {
+    width: 60px; padding: 5px 8px; background: var(--bg-input); border: 1px solid var(--border);
+    color: var(--accent); border-radius: 6px; font-family: inherit; font-size: 0.8rem;
+    font-weight: 600; text-align: center;
+}
+.formula-bar {
+    flex: 1; padding: 5px 12px; background: var(--bg-input); border: 1px solid var(--border);
+    color: var(--text-primary); border-radius: 6px; font-family: inherit; font-size: 0.8rem; outline: none;
+}
+.formula-bar:focus { border-color: var(--accent); }
+
+.excel-wrapper { flex: 1; overflow: auto; }
+.excel-table {
+    border-collapse: collapse; width: max-content; min-width: 100%;
+}
+.excel-table th {
+    background: var(--bg-secondary); color: var(--text-muted); font-size: 0.7rem;
+    font-weight: 600; padding: 6px 4px; border: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 2; min-width: 40px; text-align: center;
+}
+.excel-table th.row-header {
+    position: sticky; left: 0; z-index: 3; width: 40px;
+    background: var(--bg-secondary);
+}
+.excel-table th.corner {
+    position: sticky; top: 0; left: 0; z-index: 4;
+    background: var(--bg-secondary);
+}
+.excel-table td {
+    padding: 0; border: 1px solid var(--border); min-width: 100px;
+    background: var(--bg-card);
+}
+.excel-table td input {
+    width: 100%; padding: 6px 8px; background: transparent; border: none;
+    color: var(--text-primary); font-family: inherit; font-size: 0.8rem; outline: none;
+}
+.excel-table td input:focus { background: rgba(124,92,252,0.08); }
+.excel-table td.selected { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+/* ============ PPT EDITOR ============ */
+.ppt-toolbar {
+    display: flex; align-items: center; gap: 8px; padding: 8px 16px;
+    background: var(--bg-secondary); border-bottom: 1px solid var(--border); flex-shrink: 0;
+}
+.ppt-layout { display: flex; flex: 1; overflow: hidden; }
+.ppt-sidebar {
+    width: 160px; padding: 12px; overflow-y: auto; background: var(--bg-topbar);
+    border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 8px;
+}
+.ppt-thumb {
+    border: 2px solid var(--border); border-radius: 6px; padding: 8px;
+    font-size: 0.6rem; color: var(--text-muted); cursor: pointer;
+    transition: all 0.15s; aspect-ratio: 16/9;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    overflow: hidden; background: white;
+}
+.ppt-thumb.active { border-color: var(--accent); box-shadow: 0 0 12px rgba(124,92,252,0.3); }
+.ppt-thumb:hover { border-color: var(--accent-light); }
+
+.ppt-canvas-wrapper {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 24px; background: #1a1a30; overflow: auto;
+}
+.ppt-slide {
+    width: 960px; height: 540px; background: white; color: #333;
+    border-radius: 6px; box-shadow: var(--shadow-lg); outline: none;
+    padding: 40px; overflow: hidden;
+}
+
+/* ============ MODAL ============ */
+.modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;
+    z-index: 9999; opacity: 0; visibility: hidden; transition: all var(--transition);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal {
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius-xl); width: 90%; max-width: 600px;
+    box-shadow: var(--shadow-lg); transform: scale(0.9); transition: transform 0.3s;
+    max-height: 80vh; display: flex; flex-direction: column;
+}
+.modal.modal-lg { max-width: 700px; }
+.modal-overlay.active .modal { transform: scale(1); }
+.modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 24px; border-bottom: 1px solid var(--border);
+}
+.modal-header h3 { font-size: 1rem; font-weight: 700; }
+.modal-close {
+    width: 30px; height: 30px; border: none; background: rgba(255,255,255,0.05);
+    color: var(--text-secondary); border-radius: 6px; cursor: pointer; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+}
+.modal-close:hover { background: rgba(239,68,68,0.2); color: var(--danger); }
+.modal-body { padding: 20px 24px; overflow-y: auto; flex: 1; }
+.modal-footer {
+    display: flex; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--border);
+    justify-content: flex-end;
+}
+.btn-primary {
+    padding: 8px 18px; background: var(--accent); color: white; border: none;
+    border-radius: var(--radius-sm); font-family: inherit; font-size: 0.8rem;
+    font-weight: 600; cursor: pointer; transition: all var(--transition);
+}
+.btn-primary:hover { background: var(--accent-light); }
+.btn-secondary {
+    padding: 8px 18px; background: rgba(255,255,255,0.05); color: var(--text-secondary);
+    border: 1px solid var(--border); border-radius: var(--radius-sm); font-family: inherit;
+    font-size: 0.8rem; cursor: pointer;
+}
+.btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+.view-meta {
+    display: flex; gap: 16px; margin-bottom: 16px;
+    padding: 12px 16px; background: rgba(124,92,252,0.05);
+    border-radius: var(--radius-md); font-size: 0.8rem; color: var(--text-secondary);
+}
+.view-content {
+    background: white; color: #333; padding: 24px; border-radius: var(--radius-md);
+    max-height: 400px; overflow-y: auto; font-family: 'Times New Roman', serif;
+}
+
+/* ============ TOAST ============ */
+.toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 99999; display: flex; flex-direction: column; gap: 8px; }
+.toast {
+    background: var(--bg-secondary); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 14px 20px; font-size: 0.85rem;
+    box-shadow: var(--shadow-lg); animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+    min-width: 280px;
+}
+.toast.success { border-left: 3px solid var(--success); }
+.toast.error { border-left: 3px solid var(--danger); }
+.toast.info { border-left: 3px solid var(--accent); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(40px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes toastOut { from { opacity: 1; } to { opacity: 0; transform: translateX(40px); } }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 768px) {
+    .doc-grid { grid-template-columns: 1fr; }
+    .app-header { padding: 12px 16px; }
+    .dashboard { padding: 24px 16px; }
+    .word-page { width: 100%; min-height: 500px; padding: 32px; }
+    .ppt-sidebar { display: none; }
+    .ppt-slide { width: 100%; height: auto; aspect-ratio: 16/9; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(124,92,252,0.2); border-radius: 3px; }

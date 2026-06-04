@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Web tabanlı Office uygulaması - Word, Excel, PowerPoint editörü">
+    <title>OfficeHub - Web Tabanlı Office Uygulaması</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ============================================ -->
+    <!-- MAIN DASHBOARD                               -->
+    <!-- ============================================ -->
+    <div class="app" id="app-dashboard">
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo">
+                    <span class="logo-icon">📝</span>
+                    <h1>OfficeHub</h1>
+                </div>
+                <span class="header-tag">Web Tabanlı Office</span>
+            </div>
+            <div class="header-right">
+                <button class="header-btn" id="btn-saved-docs" title="Kayıtlı Belgeler">
+                    📂 Kayıtlı Belgeler
+                </button>
+            </div>
+        </header>
+
+        <main class="dashboard">
+            <!-- New Document Section -->
+            <section class="section">
+                <h2 class="section-title">Yeni Belge Oluştur</h2>
+                <div class="doc-grid">
+                    <button class="doc-card word" id="btn-new-word" data-type="word">
+                        <div class="doc-card-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect width="48" height="48" rx="12" fill="#2B579A" fill-opacity="0.15"/>
+                                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#2B579A" font-size="22" font-weight="800">W</text>
+                            </svg>
+                        </div>
+                        <h3>Word Belgesi</h3>
+                        <p>Metin editörü ile belge oluşturun</p>
+                    </button>
+
+                    <button class="doc-card excel" id="btn-new-excel" data-type="excel">
+                        <div class="doc-card-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect width="48" height="48" rx="12" fill="#217346" fill-opacity="0.15"/>
+                                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#217346" font-size="22" font-weight="800">X</text>
+                            </svg>
+                        </div>
+                        <h3>Excel Tablosu</h3>
+                        <p>Hesap tablosu oluşturun</p>
+                    </button>
+
+                    <button class="doc-card powerpoint" id="btn-new-ppt" data-type="powerpoint">
+                        <div class="doc-card-icon">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                <rect width="48" height="48" rx="12" fill="#D24726" fill-opacity="0.15"/>
+                                <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="#D24726" font-size="22" font-weight="800">P</text>
+                            </svg>
+                        </div>
+                        <h3>PowerPoint Sunumu</h3>
+                        <p>Sunum slaytları hazırlayın</p>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Saved Documents Section -->
+            <section class="section" id="saved-section">
+                <div class="section-header">
+                    <h2 class="section-title">📂 Kayıtlı Belgeler</h2>
+                    <button class="btn-refresh" id="btn-refresh" title="Yenile">🔄</button>
+                </div>
+                <div class="saved-list" id="saved-list">
+                    <!-- Rendered dynamically -->
+                </div>
+                <div class="empty-state" id="saved-empty" style="display:none;">
+                    <span class="empty-icon">📄</span>
+                    <p>Henüz kayıtlı belge yok</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- EDITOR VIEW                                  -->
+    <!-- ============================================ -->
+    <div class="editor-view" id="editor-view" style="display:none;">
+        <div class="editor-topbar">
+            <div class="topbar-left">
+                <button class="topbar-btn" id="btn-back">← Geri</button>
+                <span class="topbar-divider"></span>
+                <span class="topbar-title" id="editor-title">Word Belgesi</span>
+            </div>
+            <div class="topbar-right">
+                <button class="topbar-btn save-btn" id="btn-save">💾 Kaydet</button>
+            </div>
+        </div>
+
+        <!-- Word Editor -->
+        <div class="editor-container" id="editor-word" style="display:none;">
+            <div class="word-toolbar" id="word-toolbar">
+                <div class="toolbar-group">
+                    <button class="tb-btn" onclick="execCmd('bold')" title="Kalın"><b>B</b></button>
+                    <button class="tb-btn" onclick="execCmd('italic')" title="İtalik"><i>I</i></button>
+                    <button class="tb-btn" onclick="execCmd('underline')" title="Altı Çizili"><u>U</u></button>
+                    <button class="tb-btn" onclick="execCmd('strikeThrough')" title="Üstü Çizili"><s>S</s></button>
+                </div>
+                <div class="toolbar-group">
+                    <select class="tb-select" onchange="execCmdVal('fontSize', this.value)" title="Yazı Boyutu">
+                        <option value="1">8</option>
+                        <option value="2">10</option>
+                        <option value="3" selected>12</option>
+                        <option value="4">14</option>
+                        <option value="5">18</option>
+                        <option value="6">24</option>
+                        <option value="7">36</option>
+                    </select>
+                    <select class="tb-select" onchange="execCmdVal('fontName', this.value)" title="Yazı Tipi">
+                        <option value="Inter">Inter</option>
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier New">Courier New</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                    </select>
+                </div>
+                <div class="toolbar-group">
+                    <input type="color" class="tb-color" value="#000000" onchange="execCmdVal('foreColor', this.value)" title="Yazı Rengi">
+                    <input type="color" class="tb-color" value="#ffffff" onchange="execCmdVal('hiliteColor', this.value)" title="Arkaplan Rengi">
+                </div>
+                <div class="toolbar-group">
+                    <button class="tb-btn" onclick="execCmd('justifyLeft')" title="Sola Hizala">⬅</button>
+                    <button class="tb-btn" onclick="execCmd('justifyCenter')" title="Ortala">⬛</button>
+                    <button class="tb-btn" onclick="execCmd('justifyRight')" title="Sağa Hizala">➡</button>
+                </div>
+                <div class="toolbar-group">
+                    <button class="tb-btn" onclick="execCmd('insertUnorderedList')" title="Madde İşareti">• List</button>
+                    <button class="tb-btn" onclick="execCmd('insertOrderedList')" title="Numaralı Liste">1. List</button>
+                </div>
+                <div class="toolbar-group">
+                    <button class="tb-btn" onclick="execCmd('undo')" title="Geri Al">↩</button>
+                    <button class="tb-btn" onclick="execCmd('redo')" title="Yinele">↪</button>
+                </div>
+            </div>
+            <div class="word-page-wrapper">
+                <div class="word-page" contenteditable="true" id="word-editor" spellcheck="true">
+                    <h1>Yeni Belge</h1>
+                    <p>Buraya yazmaya başlayın...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Excel Editor -->
+        <div class="editor-container" id="editor-excel" style="display:none;">
+            <div class="excel-toolbar">
+                <div class="toolbar-group">
+                    <span class="cell-label">Hücre:</span>
+                    <input type="text" class="cell-ref" id="cell-ref" value="A1" readonly>
+                    <input type="text" class="formula-bar" id="formula-bar" placeholder="Değer veya formül girin...">
+                </div>
+            </div>
+            <div class="excel-wrapper">
+                <table class="excel-table" id="excel-table">
+                    <!-- Generated by JS -->
+                </table>
+            </div>
+        </div>
+
+        <!-- PowerPoint Editor -->
+        <div class="editor-container" id="editor-ppt" style="display:none;">
+            <div class="ppt-toolbar">
+                <div class="toolbar-group">
+                    <button class="tb-btn" id="btn-add-slide">+ Slayt Ekle</button>
+                    <button class="tb-btn" id="btn-del-slide">🗑 Slaytı Sil</button>
+                </div>
+                <div class="toolbar-group">
+                    <select class="tb-select" id="ppt-bg-color" title="Arkaplan Rengi">
+                        <option value="#ffffff">⬜ Beyaz</option>
+                        <option value="#1a1a2e">⬛ Koyu</option>
+                        <option value="#2B579A">🔵 Mavi</option>
+                        <option value="#217346">🟢 Yeşil</option>
+                        <option value="#D24726">🔴 Kırmızı</option>
+                        <option value="#7c5cfc">🟣 Mor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="ppt-layout">
+                <div class="ppt-sidebar" id="ppt-slide-list">
+                    <!-- Slide thumbnails -->
+                </div>
+                <div class="ppt-canvas-wrapper">
+                    <div class="ppt-slide" id="ppt-slide" contenteditable="true">
+                        <h1 style="text-align:center; margin-top:120px; font-size:2.5rem;">Sunum Başlığı</h1>
+                        <p style="text-align:center; color:#666; font-size:1.2rem;">Alt başlık buraya</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- VIEW DOCUMENT MODAL                          -->
+    <!-- ============================================ -->
+    <div class="modal-overlay" id="modal-view">
+        <div class="modal modal-lg">
+            <div class="modal-header">
+                <h3 id="view-modal-title">📄 Belge Detayı</h3>
+                <button class="modal-close" onclick="closeViewModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="view-meta" id="view-meta"></div>
+                <div class="view-content" id="view-content"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeViewModal()">Kapat</button>
+                <button class="btn-primary" id="btn-load-to-editor">📝 Editörde Aç</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
